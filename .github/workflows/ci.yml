@@ -4,9 +4,10 @@
 name: Python CI
 
 on:
+  workflow_dispatch:
   push:
-  pull_request:
-    branches: [ master ]
+    branches:
+      - main
 
 env:
   # Private package index credentials, for installing and publishing to the private pypi index (see readme)
@@ -32,7 +33,7 @@ jobs:
         with:
           python-version: '3.9'
           cache: true
-          
+
       - name: Install dependencies
         run: pdm install
 

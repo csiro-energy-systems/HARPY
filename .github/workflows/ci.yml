@@ -37,7 +37,7 @@ jobs:
       - name: Install poetry
         uses: snok/install-poetry@v1
         with:
-          version: {env.POETRY_VERSION}
+          version: {{env.POETRY_VERSION}}
 
       - name: Install dependencies
         run: poetry install
@@ -57,9 +57,9 @@ jobs:
           draft: false
           prerelease: false
 
-#      - name: Publish to PyPI
-#        if: startsWith(github.ref, 'refs/tags/')
-#        run: poetry publish
+      #      - name: Publish to PyPI
+      #        if: startsWith(github.ref, 'refs/tags/')
+      #        run: poetry publish
 
       - name: Publish to Private Package Index
         if: startsWith(github.ref, 'refs/tags/')

@@ -1,0 +1,58 @@
+# To trigger a release, increment the pyproject version create and push a matching git tag. e.g. to release version 0.0.2a ('a' denotes a pre-release):
+#   git tag -a 0.3.3 -m "0.3.3"; git push --tags
+
+name: Python CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  # Private package index credentials, for installing and publishing to the private pypi index (see readme)
+  PUBLISH_URL: ${{secrets.PRIVATE_PYPI_PUBLISH_URL}}
+  PUBLISH_USER: ${{secrets.PRIVATE_PYPI_PUBLISH_USER}}
+  PUBLISH_PASSWORD: ${{secrets.PRIVATE_PYPI_PUBLISH_PASSWORD}}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install PDM
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: '3.9'
+          cache: true
+
+      - name: Install dependencies
+        run: pdm install
+
+      - name: Run pytest
+        run: pdm run pytest
+
+      - name: Build
+        run: pdm build
+
+      - name: Create Release from Tag
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: false
+
+      - name: Publish to Private Package Index
+        if: startsWith(github.ref, 'refs/tags/')
+        run: pdm publish --repository https://${{env.PUBLISH_USER}}:${{env.PUBLISH_PASSWORD}}@pkgs.dev.azure.com/csiro-energy/csiro-energy/_packaging/csiro-python-packages/pypi/upload

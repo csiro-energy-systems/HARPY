@@ -1,21 +1,28 @@
-[project]
+[tool.poetry]
 name = "harpy3"
 version = "0.3.4"
 description = "Library for reading/modifying/writing header-array (HAR) files."
-authors = [
-    { name = "Florian Schiffmann, Lyle Collins", email = "florian.schiffmann@vu.edu.au" },
-    { name = "Lyle Collins", email = "Lyle.Collins@csiro.au" },
-    { name = "Sam West", email = "sam.west@csiro.au" },
-]
-
-packages = [{ include = "harpy/**/*" }]
-
-
-dependencies = [
-    "numpy",
-]
-requires-python = ">=3.9"
 readme = "README.md"
+authors = ["Florian Schiffmann <florian.schiffmann@vu.edu.au>",
+    "Lyle Collins <Lyle.Collins@csiro.au>",
+    "Sam West <sam.west@csiro.au>"
+]
+license = "GPLv3"
+
+packages = [{ include = "harpy/**/*.py" }]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+numpy = "^1.21.2"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "csiroenergy"
+url = "https://pkgs.dev.azure.com/csiro-energy/csiro-energy/_packaging/csiro-python-packages/pypi/simple/"
+priority = "supplemental"
 
 [project.license]
 text = "GPLv3"
@@ -23,20 +30,10 @@ text = "GPLv3"
 [project.urls]
 Homepage = "https://github.com/GEMPACKsoftware/HARPY"
 
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.2.2"
+
 [build-system]
-requires = [
-    "pdm-backend",
-]
-build-backend = "pdm.backend"
+requires = ["setuptools", "poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 
-[tool.pdm]
-distribution = true
-
-[tool.pdm.build]
-includes = ["harpy/**/*"]
-excludes = ["harpy/tests/**/*"]
-
-[tool.pdm.dev-dependencies]
-dev = [
-    "pytest>=8.2.2",
-]

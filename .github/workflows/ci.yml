@@ -18,6 +18,9 @@ env:
   PUBLISH_USER: ${{secrets.PRIVATE_PYPI_PUBLISH_USER}}
   PUBLISH_PASSWORD: ${{secrets.PRIVATE_PYPI_PUBLISH_PASSWORD}}
 
+  POETRY_VERSION: 1.8.3
+  PYTHON_VERSION: 3.9
+
 jobs:
   build:
 
@@ -29,22 +32,21 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: ${{env.PYTHON_VERSION}}
 
-      - name: Install PDM
-        uses: pdm-project/setup-pdm@v4
+      - name: Install poetry
+        uses: snok/install-poetry@v1
         with:
-          python-version: '3.9'
-          cache: true
+          version: {env.POETRY_VERSION}
 
       - name: Install dependencies
-        run: pdm install
+        run: poetry install
 
       - name: Run pytest
-        run: pdm run pytest
+        run: poetry run pytest
 
       - name: Build
-        run: pdm build
+        run: poetry build
 
       - name: Create Release from Tag
         if: startsWith(github.ref, 'refs/tags/')
@@ -55,6 +57,14 @@ jobs:
           draft: false
           prerelease: false
 
+#      - name: Publish to PyPI
+#        if: startsWith(github.ref, 'refs/tags/')
+#        run: poetry publish
+
       - name: Publish to Private Package Index
         if: startsWith(github.ref, 'refs/tags/')
-        run: pdm publish --repository https://${{env.PUBLISH_USER}}:${{env.PUBLISH_PASSWORD}}@pkgs.dev.azure.com/csiro-energy/csiro-energy/_packaging/csiro-python-packages/pypi/upload
+        continue-on-error: true
+        run:
+          poetry config repositories.csiroenergy ${{env.PUBLISH_URL}}
+          poetry config http-basic.csiroenergy ${{env.PUBLISH_USER}} ${{env.PUBLISH_PASSWORD}}
+          poetry publish --build -r csiroenergy

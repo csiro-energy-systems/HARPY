@@ -9,8 +9,8 @@ on:
   push:
     branches:
       - main
-  tags:
-    - '*.*.*'
+    tags:
+      - '*.*.*'
 
 env:
   # Private package index credentials, for installing and publishing to the private pypi index (see readme)

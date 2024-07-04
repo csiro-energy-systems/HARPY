@@ -4,6 +4,7 @@
 name: Python CI
 
 on:
+  pull_request:
   workflow_dispatch:
   push:
     branches:

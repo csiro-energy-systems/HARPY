@@ -1,12 +1,16 @@
 [project]
 name = "harpy3"
-version = "0.3.3"
+version = "0.3.4"
 description = "Library for reading/modifying/writing header-array (HAR) files."
 authors = [
     { name = "Florian Schiffmann, Lyle Collins", email = "florian.schiffmann@vu.edu.au" },
     { name = "Lyle Collins", email = "Lyle.Collins@csiro.au" },
     { name = "Sam West", email = "sam.west@csiro.au" },
 ]
+
+packages = [{ include = "harpy/**/*" }]
+
+
 dependencies = [
     "numpy",
 ]
@@ -27,6 +31,10 @@ build-backend = "pdm.backend"
 
 [tool.pdm]
 distribution = true
+
+[tool.pdm.build]
+includes = ["harpy/**/*"]
+excludes = ["harpy/tests/**/*"]
 
 [tool.pdm.dev-dependencies]
 dev = [

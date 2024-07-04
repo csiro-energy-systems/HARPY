@@ -34,10 +34,11 @@ jobs:
         with:
           python-version: ${{env.PYTHON_VERSION}}
 
-      - name: Install poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: {{env.POETRY_VERSION}}
+      - name: Install Poetry
+        run: |
+          pip install --user pipx
+          pipx install poetry==${{ env.POETRY_VERSION }}
+          poetry config virtualenvs.in-project true
 
       - name: Install dependencies
         run: poetry install

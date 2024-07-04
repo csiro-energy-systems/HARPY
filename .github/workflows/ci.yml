@@ -1,5 +1,5 @@
 # To trigger a release, increment the pyproject version create and push a matching git tag. e.g. to release version 0.0.2a ('a' denotes a pre-release):
-#   git tag -a 0.3.3 -m "0.3.3"; git push --tags
+#   git tag -a 0.3.4 -m "0.3.4"; git push --tags
 
 name: Python CI
 
@@ -68,4 +68,4 @@ jobs:
         run:
           poetry config repositories.csiroenergy ${{env.PUBLISH_URL}}
           poetry config http-basic.csiroenergy ${{env.PUBLISH_USER}} ${{env.PUBLISH_PASSWORD}}
-          poetry publish --build -r csiroenergy
+          poetry publish -r csiroenergy

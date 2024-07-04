@@ -8,7 +8,6 @@ authors = [
     { name = "Sam West", email = "sam.west@csiro.au" },
 ]
 dependencies = [
-    "setuptools>=70.2.0",
     "numpy",
 ]
 requires-python = ">=3.9"

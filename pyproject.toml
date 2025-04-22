@@ -1,11 +1,12 @@
-[tool.poetry]
-name = "harpy3"
-version = "0.3.5"
+[project]
+name = "harpy"
+version = "0.3.6"
 description = "Library for reading/modifying/writing header-array (HAR) files."
 readme = "README.md"
-authors = ["Florian Schiffmann <florian.schiffmann@vu.edu.au>",
-    "Lyle Collins <Lyle.Collins@csiro.au>",
-    "Sam West <sam.west@csiro.au>"
+authors = [
+    { name = "Florian Schiffmann", email = "florian.schiffmann@vu.edu.au" },
+    { name = "Lyle Collins", email = "Lyle.Collins@csiro.au" },
+    { name = "Sam West", email = "sam.west@csiro.au" }
 ]
 license = "GPLv3"
 
@@ -24,8 +25,7 @@ name = "csiroenergy"
 url = "https://pkgs.dev.azure.com/csiro-energy/csiro-energy/_packaging/csiro-python-packages/pypi/simple/"
 priority = "supplemental"
 
-[project.license]
-text = "GPLv3"
+
 
 [project.urls]
 Homepage = "https://github.com/GEMPACKsoftware/HARPY"
